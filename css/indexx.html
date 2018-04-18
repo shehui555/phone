@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #canva{
+            background: indianred;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canva" width="500px" height="300px"></canvas>
+
+
+
+<script type="text/javascript">
+    window.onload=function(){
+        var canva=document.getElementById('canva');
+        var ctx  =canva.getContext('2d');
+        var h=canva.height;
+        var w=canva.width;
+        var rext={                          //定义验证块的属性
+            x:Math.random()*(w-50),
+            y:Math.random()*(h-50),
+        }
+        var hk={                           //滑块属性
+            x:'0',
+            y:''
+        }
+        Rect();                            //绘制验证块
+        Hk(0,rext.y);                      //绘制滑块
+
+        canva.addEventListener('click',function(){
+            var ev=ev||event;
+            var x=ev.clientX;
+            var y=ev.clientY;
+            if(x>=0 && x<=50 && y>=rext.y && y<=rext.y+50  ){//canvas内部监听
+                canva.addEventListener('mousemove',function(ev){
+                    ev=ev||event;
+                    ctx.clearRect(hk.x,hk.y,50,50);   //清除滑块
+                    hk.x=ev.clientX;
+                    Hk(hk.x,rext.y);
+                    //绘制滑块
+                    var hk_x=ev.clientX;
+                    var yz_x=rext.x;
+                    (function(x,y){
+                        if(x>y && x<y+50){
+                            console.log("验证成功");
+                        }
+                    })(hk_x,yz_x)      //判断验证的匿名函数
+                })
+
+            }
+        })   //点击事件的处理
+
+        function Rect(){
+            ctx.fillStyle='whitesmoke';
+            ctx.fillRect(rext.x,rext.y,50,50);
+        }
+        function Hk(x,y){
+            hk.x=x;
+            hk.y=y;
+            ctx.fillRect(hk.x,hk.y,50,50);
+        }
+    }
+</script>
+</body>
+</html>
